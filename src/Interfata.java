@@ -9,11 +9,12 @@ public class Interfata extends JFrame implements ActionListener {
     //JPanel panel = new JPanel();
     String currentop;
     String num1, num2;
-    int actualnum1, actualnum2;
-    int resultnum;
+    double actualnum1, actualnum2;
+    double resultnum;
     String result;
     JTextField display = new JTextField(16);
-
+    boolean isDoubleFirst = false;
+    boolean isDoubleSecond = false;
     public Interfata() {
          //frame
         JFrame frame = new JFrame();
@@ -58,8 +59,8 @@ public class Interfata extends JFrame implements ActionListener {
             if(num2 == null) {
                 num2 = "0";
             }
-            actualnum2 = Integer.parseInt(num2);
-            actualnum1 = Integer.parseInt(num1);
+            actualnum2 = Double.parseDouble(num2);
+            actualnum1 = Double.parseDouble(num1);
             if(currentop.equals("+")) {
                 resultnum = actualnum1 + actualnum2;
             } else if(currentop.equals("-")) {
@@ -69,20 +70,28 @@ public class Interfata extends JFrame implements ActionListener {
             } else if(currentop.equals("/")) {
                 resultnum = actualnum1 / actualnum2;
             }
-            result = Integer.toString(resultnum);
+            result = Double.toString(resultnum);
             num1 = result;
             num2 = null;
             display.setText(num1);
         } else {
             if(num2 == null){
-                if(num1 == null){
+                if(word =="."){
+                    isDoubleFirst = true;
+                    if(num1 == null){
+                        num1 = "0";
+                    }
+                    num1+=word;
+                } else if(num1 == null){
                     num1 = word;
                 } else {
                     num1 = num1 + word;
                 }
                 display.setText(num1);
             } else {
-                if(num2 =="0"){
+                if(word == "."){
+                    isDoubleSecond = true;
+                } else if(num2 =="0"){
                     num2="";
                 }
                 num2 = num2 + word;
