@@ -71,7 +71,6 @@ public class Interfata extends JFrame implements ActionListener {
                 resultnum = actualnum1 / actualnum2;
             }
             result = Double.toString(resultnum);
-            isDoubleFirst = false;
             isDoubleSecond = false;
             num1 = result;
             num2 = null;
