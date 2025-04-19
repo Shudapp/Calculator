@@ -71,30 +71,34 @@ public class Interfata extends JFrame implements ActionListener {
                 resultnum = actualnum1 / actualnum2;
             }
             result = Double.toString(resultnum);
+            isDoubleFirst = false;
+            isDoubleSecond = false;
             num1 = result;
             num2 = null;
             display.setText(num1);
         } else {
             if(num2 == null){
-                if(word =="."){
+                if(word == "."&& !isDoubleFirst){
                     isDoubleFirst = true;
+                    num1 += word;
+                } else if(word != "."){
                     if(num1 == null){
-                        num1 = "0";
+                        num1 = word;
+                    } else {
+                        num1 += word;
                     }
-                    num1+=word;
-                } else if(num1 == null){
-                    num1 = word;
-                } else {
-                    num1 = num1 + word;
                 }
                 display.setText(num1);
             } else {
-                if(word == "."){
+                if(word == "." && !isDoubleSecond){
                     isDoubleSecond = true;
-                } else if(num2 =="0"){
-                    num2="";
+                    num2 += word;
+                } else if(word != "."){
+                    if(num2 == "0"){
+                        num2 = "";
+                    }
+                    num2+=word;
                 }
-                num2 = num2 + word;
                 display.setText(num2);
             }
         }
