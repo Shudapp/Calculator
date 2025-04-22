@@ -10,6 +10,8 @@ public class Interfata extends JFrame implements ActionListener {
     double doubleResult;
     int intResult;
     JTextField display = new JTextField();
+    Boolean FirstSquared = false;
+    Boolean SecondSquared = false;
     public Interfata() {
         //frame
         JFrame frame = new JFrame();
@@ -80,14 +82,19 @@ public class Interfata extends JFrame implements ActionListener {
 
             }
         }else if(word.equals("√")) {
-            if(num2 == null && num1 != null) {
-                if(Math.floor(Math.sqrt(Double.parseDouble(num1))) == Math.ceil(Math.sqrt(Double.parseDouble(num1)))) {
-                    display.setText(Integer.toString((int) Math.round(Math.sqrt(Integer.parseInt(num1)))));
+            if(num1 == null && num2 == null){
+                FirstSquared = true;
+            } else if(num2 == null && num1 != null) {
+                if(currentop==null) {
+                    if (Math.floor(Math.sqrt(Double.parseDouble(num1))) == Math.ceil(Math.sqrt(Double.parseDouble(num1)))) {
+                        display.setText(Integer.toString((int) Math.round(Math.sqrt(Integer.parseInt(num1)))));
+                    } else {
+                        display.setText(Double.toString(Math.sqrt(Double.parseDouble(num1))));
+                    }
+                    num1 = Double.toString(Math.sqrt(Double.parseDouble(num1)));
                 }
-                else {
-                    display.setText(Double.toString(Math.sqrt(Double.parseDouble(num1))));
-                }
-                num1 = Double.toString(Math.sqrt(Double.parseDouble(num1)));
+            } else if(num2 == "0" && num1 != null) {
+                SecondSquared = true;
             }
             else if(num1 == null) {
                 display.setText(word);
@@ -104,12 +111,19 @@ public class Interfata extends JFrame implements ActionListener {
             currentop = null;
             num1 = num2 = null;
         }else if(word.equals("=")){
-            //currentop = "=";
             if(num2 == null) {
                 num2 = "0";
             }
             actualnum2 = Double.parseDouble(num2);
             actualnum1 = Double.parseDouble(num1);
+            if(FirstSquared == true){
+                actualnum1 = Math.sqrt(actualnum1);
+            }
+            if(SecondSquared == true){
+                actualnum2 = Math.sqrt(actualnum2);
+            }
+            FirstSquared = false;
+            SecondSquared = false;
             try {
                 if(actualnum1 % 1 == 0 && actualnum2 % 1 == 0 && currentop != "÷") {
                     isOk = false;
@@ -160,6 +174,7 @@ public class Interfata extends JFrame implements ActionListener {
             catch (ArithmeticException ex) {
                 display.setText("Undefined");
             }
+            currentop = null;
         }else {
             if(num2 == null){
                 if(num1 == null) {
@@ -167,7 +182,9 @@ public class Interfata extends JFrame implements ActionListener {
                         num1 = "0.";
                         display.setText(num1);
                     }
-                    else { 
+                    else if(word.equals("√")){
+                        FirstSquared = true;
+                    } else {
                         num1 = word;
                         display.setText(num1);
                     }
@@ -189,11 +206,11 @@ public class Interfata extends JFrame implements ActionListener {
                     }
                 }
             } else {
-                if(num2 == "0"){
-                    num2 = "";
-                }
-                if(word.equals(".") && num2.contains(".")){
-
+                if(word.equals(".")){
+                    num2= "0.";
+                    display.setText((df.format(Double.parseDouble(num2))));
+                } else if(word.equals("√")){
+                    SecondSquared = true;
                 }
                 else {
                     num2 += word;
